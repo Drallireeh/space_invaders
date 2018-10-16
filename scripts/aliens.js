@@ -22,8 +22,8 @@ const aliensSprites = {
         { x: 32, y: 25, width: 22, height: 16 },
     ],
     10: [
-        { x: 60, y: 3, width: 24, height: 16 },
         { x: 60, y: 25, width: 24, height: 16 },
+        { x: 60, y: 3, width: 24, height: 16 },
     ]
 };
 
@@ -46,7 +46,7 @@ function createAliens() {
             height: alienHeight,
             points: aliensMap[i],
             direction: 1,
-            spriteIndex: 0
+            spriteIndex: 1
         });
     }
 
@@ -70,6 +70,12 @@ function animateAliens() {
                 aliens[i].y += 22;
             }
             else aliens[i].x += 12 * aliens[i].direction;
+
+            aliens[i].spriteIndex = (aliens[i].spriteIndex === 0) ? 1 : 0;
+            // if (aliens[i].spriteIndex ===0) {
+            //     aliens[i].spriteIndex = 1;
+            // }
+            // else aliens[i].spriteIndex = 0;
         }
     } // fin du mouvement des aliens
 
