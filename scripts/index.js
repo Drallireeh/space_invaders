@@ -21,6 +21,7 @@ spritesheet.onload = function() { // fonction éxécutée lorsque le navigateur 
 
 function update() {
     animatePlayer();
+    animateAliens();
 }
 
 function render() {
