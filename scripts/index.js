@@ -11,7 +11,7 @@ let aliens;
 // Chargement de l'image du sprite avant de démarrer le jeu
 const spritesheet = new Image();
 spritesheet.src = '../img/spritesheet.png';
-spritesheet.onload = function() { // fonction éxécutée lorsque le navigateur a finis de charger le PNG
+spritesheet.onload = function () { // fonction éxécutée lorsque le navigateur a finis de charger le PNG
     player = createPlayer();
     aliens = createAliens();
 

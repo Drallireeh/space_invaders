@@ -1,17 +1,17 @@
 function createPlayer() {
     const player = {
-        x : 100,
-        y : 450,
-        speed : 3,
-        lives : 3,
-        sprite : {
-            img : spritesheet,
-            offsetX : 88,
-            offsetY : 3,
-            width : 26,
-            height : 16
+        x: 100,
+        y: 450,
+        speed: 3,
+        lives: 3,
+        sprite: {
+            img: spritesheet,
+            offsetX: 88,
+            offsetY: 3,
+            width: 26,
+            height: 16
         },
-        bullet : null
+        bullet: null
     };
 
     return player;
@@ -26,7 +26,7 @@ function animatePlayer() {
     }
 
     // Gestion du débordement d'écran
-    if(player.x < 0) player.x = 0;
+    if (player.x < 0) player.x = 0;
     else if (player.x + player.sprite.width > canvas.width) {
         player.x = canvas.width - player.sprite.width;
     }
@@ -35,12 +35,12 @@ function animatePlayer() {
     if (Keyboard.SPACE) {
         if (player.bullet === null) {
             player.bullet = {
-                x : player.x + player.sprite.width/2 - 2,
-                y : player.y,
-                width : 4,
-                height : 15,
-                color : '#0f0',
-                speed : 9
+                x: player.x + player.sprite.width / 2 - 2,
+                y: player.y,
+                width: 4,
+                height: 15,
+                color: '#0f0',
+                speed: 9
             };
         }
     }
@@ -59,7 +59,7 @@ function renderPlayer() {
         player.sprite.offsetY,
         player.sprite.width,
         player.sprite.height,
-        
+
         player.x,
         player.y,
         player.sprite.width,
@@ -67,8 +67,7 @@ function renderPlayer() {
     );
 
     // Dessin du shoot joueur
-    if (player.bullet !== null)
-    {
+    if (player.bullet !== null) {
         context.fillStyle = player.bullet.color;
         context.fillRect(player.bullet.x, player.bullet.y, player.bullet.width, player.bullet.height);
     }
