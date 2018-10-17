@@ -28,7 +28,7 @@ const aliensSprites = {
 };
 
 let aliensTimer = 1000;
-let lastAlienMvt = 0; // instant 't' du dernier déplacement des aliens
+let lastAlienMvt = 0; // Instant 't' du dernier déplacement des aliens
 
 function createAliens() {
     const aliens = [];
@@ -40,7 +40,7 @@ function createAliens() {
         let alienHeight = aliensSprites[aliensMap[i]][0].height;
 
         aliens.push({
-            x: 12 + i % NB_ALIENS_PER_LINE * ALIENS_SPACE_X,
+            x: 12 + i % NB_ALIENS_PER_LINE * ALIENS_SPACE_X + (24 - alienWidth) / 2 | 0,
             y: 100 + line * ALIENS_SPACE_Y,
             width: alienWidth,
             height: alienHeight,
@@ -56,10 +56,10 @@ function createAliens() {
 function animateAliens() {
 
     if (Date.now() - lastAlienMvt > aliensTimer) {
-        lastAlienMvt = Date.now(); // mise a jour de l'instant du dernier mouvement du joueur à "maintenant" !
+        lastAlienMvt = Date.now(); // Mise a jour de l'instant du dernier mouvement du joueur à "maintenant" !
 
-        //récupération du X de l'alien le plus à droite (et à gauche)
-        let extremeRightAlien = Math.max(...aliens.map(a => a.x)) + ALIENS_SPACE_X; // pareil que Math.max(...aliens.map(function(a) { return a.x });
+        // Récupération du X de l'alien le plus à droite (et à gauche)
+        let extremeRightAlien = Math.max(...aliens.map(a => a.x)) + ALIENS_SPACE_X; // Pareil que Math.max(...aliens.map(function(a) { return a.x });
         let extremeLeftAlien = Math.min(...aliens.map(a => a.x)); // ""
 
         for (let i = 0; i < aliens.length; i++) {
@@ -77,7 +77,7 @@ function animateAliens() {
             // }
             // else aliens[i].spriteIndex = 0;
         }
-    } // fin du mouvement des aliens
+    } // Fin du mouvement des aliens
 
     // Vérification si un alien se prend une cartouche
     if (player.bullet !== null) {
