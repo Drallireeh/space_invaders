@@ -30,6 +30,7 @@ const aliensSprites = {
 let aliensTimer = 1000;
 let lastAlienMvt = 0; // Instant 't' du dernier déplacement des aliens
 let aliensExplosion = []; // Tableau qui servira a stocker tous les sprites d'explosion
+let aliensSoundNb = 1;
 
 function createAliens() {
     const aliens = [];
@@ -58,6 +59,12 @@ function animateAliens() {
 
     if (Date.now() - lastAlienMvt > aliensTimer) {
         lastAlienMvt = Date.now(); // Mise a jour de l'instant du dernier mouvement du joueur à "maintenant" !
+
+        sounds['invader' + (aliensSoundNb++ % 4 + 1)].play();
+        
+        // sounds['invader' + aliensSoundNb].play();
+        // aliensSoundNb ++;
+        // if (aliensSoundNb > 4) aliensSoundNb = 1;
 
         // Récupération du X de l'alien le plus à droite (et à gauche)
         let extremeRightAlien = Math.max(...aliens.map(a => a.x)) + ALIENS_SPACE_X; // Pareil que Math.max(...aliens.map(function(a) { return a.x });
@@ -89,6 +96,7 @@ function animateAliens() {
                 player.bullet.y <= aliens[i].y + aliens[i].height) {
                 // Collision !
                 createExplosion(aliens[i]);
+                sounds['invader_killed'].play();
                 // Augmentation du score du joueur
                 player.score += aliens[i].points;
                 player.bullet = null;

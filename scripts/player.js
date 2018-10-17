@@ -43,6 +43,7 @@ function animatePlayer() {
                 color: '#0f0',
                 speed: 9
             };
+            sounds['shoot'].play();
         }
     }
 
