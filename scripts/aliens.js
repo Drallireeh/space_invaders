@@ -29,6 +29,7 @@ const aliensSprites = {
 
 let aliensTimer = 1000;
 let lastAlienMvt = 0; // Instant 't' du dernier déplacement des aliens
+let aliensExplosion = []; // Tableau qui servira a stocker tous les sprites d'explosion
 
 function createAliens() {
     const aliens = [];
@@ -87,6 +88,7 @@ function animateAliens() {
                 player.bullet.y > aliens[i].y &&
                 player.bullet.y <= aliens[i].y + aliens[i].height) {
                 // Collision !
+                createExplosion(aliens[i]);
                 // Augmentation du score du joueur
                 player.score += aliens[i].points;
                 player.bullet = null;
@@ -97,6 +99,14 @@ function animateAliens() {
                 aliens.splice(i, 1);
                 break;
             }
+        }
+    }
+
+    // Suppression des animations d'explosion ayant dépassé les 100 ms
+    for (let i = 0; i < aliensExplosion.length; i++) {
+        if (Date.now() - aliensExplosion[i].dateCreated > 100) {
+            aliensExplosion.splice(i, 1);
+            i--;
         }
     }
 }
@@ -117,7 +127,39 @@ function renderAliens() {
             aliens[i].x,
             aliens[i].y,
             aliensSprites[points][spriteIndex].width,
-            aliensSprites[points][spriteIndex].height,
+            aliensSprites[points][spriteIndex].height
         );
     }
+
+    // Dessin des explosions
+    for (let i = 0; i < aliensExplosion.length; i++) {
+        context.drawImage(
+            spritesheet,
+
+            aliensExplosion[i].sprite.x,
+            aliensExplosion[i].sprite.y,
+            aliensExplosion[i].sprite.width,
+            aliensExplosion[i].sprite.height,
+
+            aliensExplosion[i].x,
+            aliensExplosion[i].y,
+            aliensExplosion[i].sprite.width,
+            aliensExplosion[i].sprite.height
+        );
+    }
+}
+
+// Fonction qui crée un objet représentant une explosion, à partir d'un alien
+function createExplosion(alien) {
+    aliensExplosion.push({
+        x: alien.x,
+        y: alien.y,
+        sprite: {
+            x: 88,
+            y: 25,
+            width: 26,
+            height: 16
+        },
+        dateCreated: Date.now()
+    });
 }
