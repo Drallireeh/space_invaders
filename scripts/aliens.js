@@ -9,7 +9,7 @@ const aliensMap = [
 ];
 
 const NB_ALIENS_PER_LINE = 11;
-const ALIENS_SPACE_X = 35;
+const ALIENS_SPACE_X = 36;
 const ALIENS_SPACE_Y = 28;
 
 const aliensSprites = {
@@ -61,10 +61,16 @@ function animateAliens() {
         lastAlienMvt = Date.now(); // Mise a jour de l'instant du dernier mouvement du joueur à "maintenant" !
 
         sounds['invader' + (aliensSoundNb++ % 4 + 1)].play();
-        
-        // sounds['invader' + aliensSoundNb].play();
+
+        // sounds['invader' + aliensSoundNb].play(); ///////////// C'est la même chose /////////////////
         // aliensSoundNb ++;
         // if (aliensSoundNb > 4) aliensSoundNb = 1;
+        let extremeDownAlien = Math.max(...aliens.map(a => a.y));
+        if (extremeDownAlien + 16 >= player.y) {
+            player.lives = 0;
+            sounds['player_death'].play();
+            game_mode = MODE_GAME_OVER;
+        }
 
         // Récupération du X de l'alien le plus à droite (et à gauche)
         let extremeRightAlien = Math.max(...aliens.map(a => a.x)) + ALIENS_SPACE_X; // Pareil que Math.max(...aliens.map(function(a) { return a.x });
