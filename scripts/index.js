@@ -19,6 +19,7 @@ const sounds = {
 
 const MODE_PLAYING = 1;
 const MODE_GAME_OVER = 2;
+const MODE_PLAYER_DEAD = 3;
 let game_mode = MODE_PLAYING;
 
 // Chargement de l'image du sprite avant de démarrer le jeu
@@ -46,6 +47,7 @@ function render() {
 
     switch (game_mode) {
         case MODE_PLAYING:
+        case MODE_PLAYER_DEAD:
             renderPlayer();
             renderAliens();
             break;
