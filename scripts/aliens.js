@@ -27,7 +27,8 @@ const aliensSprites = {
     ]
 };
 
-let aliensTimer = 1000; // Intervalle de mouvements d'aliens en milli-secondes (équivalent de speed)
+let initial_alien_speed = 1000;
+let aliensTimer = initial_alien_speed; // Intervalle de mouvements d'aliens en milli-secondes (équivalent de speed)
 let lastAlienMvt = 0; // Instant 't' du dernier déplacement des aliens
 let aliensExplosion = []; // Tableau qui servira a stocker tous les sprites d'explosion
 let aliensShots = []; // Tableau qui contiendra la liste des éventuels tirs d'alien
@@ -62,10 +63,10 @@ function animateAliens() {
         lastAlienMvt = Date.now(); // Mise a jour de l'instant du dernier mouvement du joueur à "maintenant" !
 
         sounds['invader' + (aliensSoundNb++ % 4 + 1)].play();
-
         // sounds['invader' + aliensSoundNb].play(); ///////////// C'est la même chose /////////////////
         // aliensSoundNb ++;
         // if (aliensSoundNb > 4) aliensSoundNb = 1;
+
         let extremeDownAlien = Math.max(...aliens.map(a => a.y));
         if (extremeDownAlien + 16 >= player.y) {
             player.lives = 0;
@@ -115,6 +116,19 @@ function animateAliens() {
                 if (aliensTimer < 75) aliensTimer = 75;
                 // Suppression de l'alien du tableau
                 aliens.splice(i, 1);
+                // Vérification s'il reste des aliens
+                if (aliens.length === 0) {
+                    // Next wave
+                    aliens = createAliens();
+                    initial_alien_speed -= 50;
+                    aliensTimer = initial_alien_speed;
+                    player.lives++;
+                    lastAlienMvt = Date.now();
+                    game_mode = MODE_NEW_WAVE;
+                    setTimeout(() => {
+                        game_mode = MODE_PLAYING;
+                    }, 1000);
+                }
                 break;
             }
         }
@@ -156,13 +170,22 @@ function animateAliens() {
             aliensShots.length = 0;
             player.bullet = null;
 
-
-
             game_mode = MODE_PLAYER_DEAD;
             setTimeout(() => {
-                player.x = 100;
+                player.x = (canvas.width / 2) - (player.sprite.width / 2);
                 game_mode = MODE_PLAYING;
             }, 2000);
+        }
+        else if (
+            player.bullet !== null &&
+            aliensShots[i].x > player.bullet.x &&
+            aliensShots[i].x + aliensShots[i].width < player.bullet.x + player.bullet.width &&
+            aliensShots[i].y + aliensShots[i].height > player.bullet.y &&
+            aliensShots[i].y < player.y + player.bullet.height
+        ) {
+            player.bullet = null;
+            aliensShots.splice(i, 1);
+            i--;
         }
     }
 }

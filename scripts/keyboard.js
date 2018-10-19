@@ -6,7 +6,8 @@ const keyMap = {
     39: 'RIGHT',
     40: 'DOWN',
     32: 'SPACE',
-    27: 'ECHAP'
+    27: 'ECHAP',
+    80: 'P'
 };
 
 // Gestionnaires d'événements
@@ -15,6 +16,8 @@ document.addEventListener('keyup', onKey);
 
 function onKey(event) {
     Keyboard[keyMap[event.keyCode]] = (event.type === 'keydown');
+
+    Keyboard._tapped = true;
 }
 
 // function onKeyDown(event) {
